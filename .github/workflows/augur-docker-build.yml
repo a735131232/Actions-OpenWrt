@@ -1,1 +1,32 @@
+name: Build Docker images
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  release:
+    types:
+      - published
 
+permissions: {}
+
+jobs:
+  build:
+    permissions:
+      contents: read #  to fetch code (actions/checkout)
+      packages: write #  to push docker image
+
+    name: Build image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v2
+      - name: Run the build
+        run: |
+          set -ex
+          docker pull ghcr.io/chaoss/augur_backend:v0.60.2
+          docker tag ghcr.io/chaoss/augur_backend:v0.60.2 registry.cn-hangzhou.aliyuncs.com/yushan/tools:v0.60.2
+          docker login --username=hi31402733@aliyun.com registry.cn-hangzhou.aliyuncs.com -p YUshan2005!
+          docker push registry.cn-hangzhou.aliyuncs.com/yushan/tools:v0.60.2
