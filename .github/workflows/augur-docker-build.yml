@@ -21,8 +21,6 @@ jobs:
     name: Build image
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout main
-        uses: actions/checkout@v2
       - name: Run the build
         run: |
           set -ex
